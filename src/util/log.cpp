@@ -152,7 +152,7 @@ void Logger::close(){
     }
 }
 
-void Logger::rotate(){//将文件重命名，并且将off_t设为0，不知道要干嘛
+void Logger::rotate(){//这个函数的作用是当当前的log文件大小达到某个值的时候就将当前文件重命名，并以filename从新打开一个log文件
     fclose(fp);
     char newpath[PATH_MAX];
     time_t time;
@@ -165,6 +165,7 @@ void Logger::rotate(){//将文件重命名，并且将off_t设为0，不知道�
             this->filename,
             tm->tm_year+1900, tm->tm_mon+1, tm->tm_mday,
             tm->tm_hour, tm->tm_min, tm->tm_sec);
+    //将当前的log文件重命名，保存下来
     int ret = rename(this->filename, newpath);//这也是个库函数，在stdio.h中，更改文件的名字
     if(ret == -1){
         return;    
